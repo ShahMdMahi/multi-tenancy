@@ -1,0 +1,33 @@
+import { Metadata } from "next";
+import { ResetPasswordForm } from "@/components/system/auth/reset-password-form";
+import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Reset Password",
+  description: "Set a new password for your account",
+};
+
+export default function ResetPasswordPage() {
+  return (
+    <>
+      <div className="flex flex-col space-y-2 text-center">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          Reset Password
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Enter your new password below to reset your account password.
+        </p>
+      </div>
+      <ResetPasswordForm />
+      <p className="px-8 text-center text-sm text-muted-foreground">
+        Back to{" "}
+        <Link
+          href="/system/auth/sign-in"
+          className="hover:text-primary underline underline-offset-4"
+        >
+          Sign In
+        </Link>
+      </p>
+    </>
+  );
+}

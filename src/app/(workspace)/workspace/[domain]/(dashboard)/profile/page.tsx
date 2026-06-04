@@ -6,15 +6,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { SystemProfileUpdateForm } from "@/components/system/account/profile-update-form";
-import { SystemPasswordUpdateForm } from "@/components/system/account/password-update-form";
+import { WorkspaceProfileUpdateForm } from "@/components/workspace/account/profile-update-form";
+import { WorkspacePasswordUpdateForm } from "@/components/workspace/account/password-update-form";
 
 export const metadata: Metadata = {
   title: "Profile",
-  description: "Manage your profile for multi tenancy system.",
+  description: "Manage your profile",
 };
 
-export default function SystemProfilePage() {
+export default function WorkspaceProfilePage() {
   return (
     <div className="max-w-2xl mx-auto w-full space-y-6">
       <div>
@@ -30,7 +30,7 @@ export default function SystemProfilePage() {
           <CardDescription>Update your personal details here.</CardDescription>
         </CardHeader>
         <CardContent>
-          <SystemProfileUpdateForm />
+          <WorkspaceProfileUpdateForm />
         </CardContent>
       </Card>
 
@@ -42,7 +42,7 @@ export default function SystemProfilePage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <SystemPasswordUpdateForm />
+          <WorkspacePasswordUpdateForm />
         </CardContent>
       </Card>
     </div>
