@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum SystemUserRole {
+  OWNER
+  ADMIN
+  USER
+}
+
+enum WorkspaceUserRole {
+  OWNER
+  ADMIN
+  USER
+}
+
+model Session {
+  // Primary Key
+  id String @id @default(cuid())
+
+  // Core Fields
+  ipAddress    String
+  userAgent    String
+  revokeReason String?
+
+  // Flags
+  isValid Boolean @default(true)
+
+  // Forign Keys
+  systemUserId    String?
+  workspaceUserId String?
+
+  // Parent Reference
+  systemUser    SystemUser?    @relation("SystemUserSessions", fields: [systemUserId], references: [id], onDelete: Cascade)
+  workspaceUser WorkspaceUser? @relation("WorkspaceUserSessions", fields: [workspaceUserId], references: [id], onDelete: Cascade)
+
+  // Child Reference
+
+  // Timestamps
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  expiresAt  DateTime
+  accessedAt DateTime?
+  revokeAt   DateTime?
+}
+
+model SystemUser {
+  // Primary Key
+  id String @id @default(cuid())
+
+  // Core Fields
+  name     String
+  email    String @unique
+  password String
+
+  // Flags
+  isVerified Boolean @default(false)
+
+  // Enums
+  role SystemUserRole @default(USER)
+
+  // Forign Keys
+
+  // Parent Reference
+
+  // Child Reference
+  sessions          Session[]     @relation("SystemUserSessions")
+  createdWorkspaces Workspace[]
+  systemEvents      SystemEvent[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WorkspaceUser {
+  // Primary Key
+  id String @id @default(cuid())
+
+  // Core Fields
+  name     String
+  email    String @unique
+  password String
+
+  // Flags
+  isVerified Boolean @default(false)
+
+  // Enums
+  role WorkspaceUserRole @default(USER)
+
+  // Forign Keys
+  workspaceId String
+
+  // Parent Reference
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  // Child Reference
+  sessions        Session[]        @relation("WorkspaceUserSessions")
+  workspaceEvents WorkspaceEvent[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Workspace {
+  // Primary Key
+  id String @id @default(cuid())
+
+  // Core Fields
+  domain      String @unique
+  name        String
+  description String
+
+  // Flags
+
+  // Enums
+
+  // Forign Keys
+  creatorId String?
+
+  // Parent Reference
+  creator SystemUser? @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+
+  // Child Reference
+  workspaceUsers WorkspaceUser[]
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SystemEvent {
+  // Primary Key
+  id String @id @default(cuid())
+
+  // Core Fields
+  name        String
+  description String
+
+  // Flags
+
+  // Enums
+
+  // Forign Keys
+  systemUserId String
+
+  // Parent Reference
+  systemUser SystemUser @relation(fields: [systemUserId], references: [id], onDelete: Cascade)
+
+  // Child Reference
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WorkspaceEvent {
+  // Primary Key
+  id String @id @default(cuid())
+
+  // Core Fields
+  name        String
+  description String
+
+  // Flags
+
+  // Enums
+
+  // Forign Keys
+  workspaceUserId String
+
+  // Parent Reference
+  workspaceUser WorkspaceUser @relation(fields: [workspaceUserId], references: [id], onDelete: Cascade)
+
+  // Child Reference
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
