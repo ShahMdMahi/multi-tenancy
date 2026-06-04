@@ -24,22 +24,28 @@ import {
   Briefcase,
 } from "lucide-react";
 
-export function WorkspaceSidebar() {
+import { getWorkspaceLink } from "@/utils/links";
+
+interface WorkspaceSidebarProps {
+  domain?: string;
+}
+
+export function WorkspaceSidebar({ domain }: WorkspaceSidebarProps) {
   const navItems = [
     {
       title: "Workspace",
       items: [
-        { title: "Dashboard", url: "/workspace", icon: LayoutDashboard },
-        { title: "Members", url: "/workspace/members", icon: Users },
-        { title: "Settings", url: "/workspace/settings", icon: Settings },
+        { title: "Dashboard", url: "/", icon: LayoutDashboard },
+        { title: "Members", url: "/members", icon: Users },
+        { title: "Settings", url: "/settings", icon: Settings },
       ],
     },
     {
       title: "Account",
       items: [
-        { title: "Profile", url: "/workspace/profile", icon: User },
-        { title: "Sessions", url: "/workspace/sessions", icon: ShieldPlus },
-        { title: "Logout", url: "/workspace/logout", icon: LogOut },
+        { title: "Profile", url: "/profile", icon: User },
+        { title: "Sessions", url: "/sessions", icon: ShieldPlus },
+        { title: "Logout", url: "/logout", icon: LogOut },
       ],
     },
   ];
@@ -81,7 +87,7 @@ export function WorkspaceSidebar() {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       tooltip={item.title}
-                      render={<Link href={item.url} />}
+                      render={<Link href={getWorkspaceLink(item.url, domain)} />}
                     >
                       <item.icon className="size-4" />
                       <span>{item.title}</span>

@@ -1,13 +1,20 @@
 import { Metadata } from "next";
 import { ResendVerificationForm } from "@/components/workspace/auth/resend-verification-form";
 import Link from "next/link";
+import { getWorkspaceLink } from "@/utils/links";
 
 export const metadata: Metadata = {
   title: "Resend Verification",
   description: "Resend your verification email",
 };
 
-export default function ResendVerificationPage() {
+export default async function ResendVerificationPage({
+  params,
+}: {
+  params: Promise<{ domain: string }>;
+}) {
+  const { domain } = await params;
+
   return (
     <>
       <div className="flex flex-col space-y-2 text-center">
@@ -22,7 +29,7 @@ export default function ResendVerificationPage() {
       <p className="px-8 text-center text-sm text-muted-foreground">
         Back to{" "}
         <Link
-          href="/workspace/auth/sign-in"
+          href={getWorkspaceLink("/auth/sign-in", domain)}
           className="hover:text-primary underline underline-offset-4"
         >
           Sign In

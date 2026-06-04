@@ -6,9 +6,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel, FieldError } from "@/components/ui/field";
 import { signInSchema, type SignInInput } from "@/schemas/shared/auth/sign-in";
+import { useParams } from "next/navigation";
 import Link from "next/link";
+import { getWorkspaceLink } from "@/utils/links";
 
 export function SignInForm() {
+  const params = useParams();
+  const domain = params?.domain as string | undefined;
+
   const form = useForm<SignInInput>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -49,7 +54,7 @@ export function SignInForm() {
             <div className="flex items-center justify-between">
               <FieldLabel htmlFor={field.name}>Password</FieldLabel>
               <Link
-                href="/workspace/auth/forgot-password"
+                href={getWorkspaceLink("/auth/forgot-password", domain)}
                 className="text-sm font-medium text-primary hover:underline underline-offset-4"
               >
                 Forgot password?

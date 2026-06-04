@@ -1,13 +1,20 @@
 import { Metadata } from "next";
 import { ForgotPasswordForm } from "@/components/workspace/auth/forgot-password-form";
 import Link from "next/link";
+import { getWorkspaceLink } from "@/utils/links";
 
 export const metadata: Metadata = {
   title: "Forgot Password",
   description: "Reset your workspace password",
 };
 
-export default function ForgotPasswordPage() {
+export default async function ForgotPasswordPage({
+  params,
+}: {
+  params: Promise<{ domain: string }>;
+}) {
+  const { domain } = await params;
+
   return (
     <>
       <div className="flex flex-col space-y-2 text-center">
@@ -23,7 +30,7 @@ export default function ForgotPasswordPage() {
       <p className="px-8 text-center text-sm text-muted-foreground">
         Remember your password?{" "}
         <Link
-          href="/workspace/auth/sign-in"
+          href={getWorkspaceLink("/auth/sign-in", domain)}
           className="hover:text-primary underline underline-offset-4"
         >
           Sign In

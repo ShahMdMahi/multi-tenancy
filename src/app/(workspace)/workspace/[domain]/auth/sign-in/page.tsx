@@ -1,13 +1,20 @@
 import { Metadata } from "next";
 import { SignInForm } from "@/components/workspace/auth/sign-in-form";
 import Link from "next/link";
+import { getWorkspaceLink } from "@/utils/links";
 
 export const metadata: Metadata = {
   title: "Sign In",
   description: "Sign in to your workspace account",
 };
 
-export default function SignInPage() {
+export default async function SignInPage({
+  params,
+}: {
+  params: Promise<{ domain: string }>;
+}) {
+  const { domain } = await params;
+
   return (
     <>
       <div className="flex flex-col space-y-2 text-center">
@@ -21,7 +28,7 @@ export default function SignInPage() {
         <p>
           Don&apos;t have an account?{" "}
           <Link
-            href="/workspace/auth/sign-up"
+            href={getWorkspaceLink("/auth/sign-up", domain)}
             className="hover:text-primary underline underline-offset-4"
           >
             Sign Up
@@ -30,7 +37,7 @@ export default function SignInPage() {
         <p>
           Need to verify your email?{" "}
           <Link
-            href="/workspace/auth/resend-verification"
+            href={getWorkspaceLink("/auth/resend-verification", domain)}
             className="hover:text-primary underline underline-offset-4"
           >
             Resend Verification

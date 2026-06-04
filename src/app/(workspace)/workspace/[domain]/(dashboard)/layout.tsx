@@ -6,14 +6,17 @@ import {
 import { WorkspaceSidebar } from "@/components/workspace/dashboard/sidebar";
 import { ThemeToggle } from "@/components/shared/theme-toggle";
 
-export default function WorkspaceDashboardLayout({
+export default async function WorkspaceDashboardLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ domain: string }>;
 }>) {
+  const { domain } = await params;
   return (
     <SidebarProvider>
-      <WorkspaceSidebar />
+      <WorkspaceSidebar domain={domain} />
       <SidebarInset>
         <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4">
           <SidebarTrigger className="-ml-1" />

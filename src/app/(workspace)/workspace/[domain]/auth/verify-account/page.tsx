@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { VerifyAccountForm } from "@/components/workspace/auth/verify-account-form";
 import Link from "next/link";
+import { getWorkspaceLink } from "@/utils/links";
 
 export const metadata: Metadata = {
   title: "Verify Account",
@@ -8,7 +9,13 @@ export const metadata: Metadata = {
     "Verify your account by entering the token sent to your email address.",
 };
 
-export default function VerifyAccountPage() {
+export default async function VerifyAccountPage({
+  params,
+}: {
+  params: Promise<{ domain: string }>;
+}) {
+  const { domain } = await params;
+
   return (
     <>
       <div className="flex flex-col space-y-2 text-center">
@@ -23,7 +30,7 @@ export default function VerifyAccountPage() {
       <p className="px-8 text-center text-sm text-muted-foreground">
         Back to{" "}
         <Link
-          href="/workspace/auth/sign-in"
+          href={getWorkspaceLink("/auth/sign-in", domain)}
           className="hover:text-primary underline underline-offset-4"
         >
           Sign In
